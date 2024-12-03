@@ -15,11 +15,16 @@ charcter_reference : dict = {
     10 : Image.open("Others/Full.png").convert("RGBA")
 }
 
-Input_List :list = [f for f in os.listdir("Input")]
+CHAR_SIZE :int = 8
+"""
+NEEDED
+"""
+INPUT_FOLDER :str = "Input"
+OUTPUT_FOLDER :str = "Output"
+USED_FOLDER :str = "Used" """If None file will be left in the INPUT_FOLDER"""
 
 def Transform(Img :Image.Image) -> Image:
     ascii = Image.new('RGB', Img.size, (0, 0, 0))
-    CHAR_SIZE = 8
     for x in range(ascii.width//CHAR_SIZE):
             for y in range(ascii.height//CHAR_SIZE):
                 rgb = Img.getpixel((CHAR_SIZE*x+(CHAR_SIZE//2), CHAR_SIZE*y+(CHAR_SIZE//2)))
@@ -28,23 +33,29 @@ def Transform(Img :Image.Image) -> Image:
                 ascii.paste(character, (x*CHAR_SIZE, y*CHAR_SIZE), character)
     return ascii
 
-def Transform_all(Images:list, show:bool = False) -> list:
+def Transform_all(Images:list, show:bool = False) -> list: # add input, output, used as parameter
     if Images == []:
         print('No images to transform.')
         return
     i = 0
     for name in Images:
-        CurrentImage : Image.Image = Image.open("Input/"+name)
+        CurrentImage : Image.Image = Image.open(f"Input/name")
         AsciiVer : Image.Image = Transform(CurrentImage)
         
-        AsciiVer.save(f"Output/{name.split(".")[0]}_Ascii.png")
+        AsciiVer.save(f"{OUTPUT_FOLDER}/{name.split(".")[0]}_Ascii.png")
+        
         i += 1
+        
         if show:
             AsciiVer.show()
-        os.rename("Input/"+name, "Used/"+name)
+        
+        if USED_FOLDER:
+            os.rename(f"{INPUT_FOLDER}/{name}", f"/{name}")
+        
         print(f"|{"-"*((20*i)//len(Images))}{"~"*(20-((20*i)//len(Images)))}|{(i*100)//len(Images)}%")
     print("All images transformed.")
     return
 
 if __name__ == "__main__":
+    Input_List :list = [f for f in os.listdir("Input")]
     Transform_all(Input_List)
