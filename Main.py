@@ -48,7 +48,7 @@ def Transform_all(INPUT_FOLDER:str = "Input", OUTPUT_FOLDER:str = "Output", show
     for name in Images:
         AsciiVer : Image.Image = Transform(f"{INPUT_FOLDER}/{name}")
         
-        AsciiVer.save(f"{OUTPUT_FOLDER}/{name.split(".")[0]}_Ascii.png")
+        #AsciiVer.save(f"{OUTPUT_FOLDER}/{name.split(".")[0]}_Ascii.png")
         
         nbDone += 1
         
