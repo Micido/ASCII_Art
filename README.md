@@ -1,5 +1,5 @@
 # Description
-This is a small python script made to turn images (see Input) into an ascii character (see Output).
+This is a small python script made to turn images (see Input) into ascii characters (see Output).
 
 # How to use
 Import Main.py and PIL 
