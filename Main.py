@@ -16,8 +16,18 @@ character_reference : dict = {
     10 : Image.open("Character/Full.png").convert("RGBA")
 }
 
+ExtensionSupported = [
+    "jpg", "jpeg", "jfif", "pjpeg", "pjp",
+    "png",
+]
+
 # FUNCTIONS
 def Transform(ImgPath:str) -> Image:
+    """
+    ImgPath : a string detailing the path to an image
+    """
+    if os.path.isdir(ImgPath) or ImgPath.split(".")[1] not in ExtensionSupported:
+        return None
     CHAR_SIZE :int = 8
     Img = Image.open(ImgPath)
     ascii = Image.new('RGB', Img.size, (0, 0, 0))
@@ -49,11 +59,14 @@ def Transform_all(INPUT_FOLDER:str = "Input", OUTPUT_FOLDER:str = "Output", show
         AsciiVer : Image.Image = Transform(f"{INPUT_FOLDER}/{name}")
         
         nbDone += 1
-        
-        if show:
-            AsciiVer.show()
-        if USED_FOLDER:
-            os.rename(f"{INPUT_FOLDER}/{name}", f"/{name}")
+        if AsciiVer:
+            if show:
+                AsciiVer.show()
+            if USED_FOLDER:
+                os.rename(f"{INPUT_FOLDER}/{name}", f"/{name}")
+            AsciiVer.save(f"{OUTPUT_FOLDER}/{name.split(".")[0]}_Ascii.png")
+        else:
+            print(f"{name} is not an image")
         
         print(f"|{"-"*((20*nbDone)//len(Images))}{"~"*(20-((20*nbDone)//len(Images)))}|{(nbDone*100)//len(Images)}%")
     print("All images transformed.")
