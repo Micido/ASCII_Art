@@ -36,7 +36,7 @@ def Transform(ImgPath:str) -> Image:
 def Transform_all(INPUT_FOLDER:str = "Input", OUTPUT_FOLDER:str = "Output", show:bool = False, USED_FOLDER:str = None) -> list:
     """
     The parameters OUTPUT_FOLDER, INPUT_FOLDER and USED_FOLDER must be the path to a folder.\n
-    If show is True all images will be shown right after being transformed.\n
+    show : wheather images are shown after being transformed or not.\n
     USED_FOLDER is where the images will be put after being transformed.\n
     If USED_FOLDER is None then image will be left in the provided INPUT_FOLDER.
     """
