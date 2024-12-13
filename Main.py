@@ -2,6 +2,7 @@
 from PIL import Image
 import os
 
+# Dict
 character_reference : dict = {
     0 : Image.open("Character/Space.png").convert("RGBA"),
     1 : Image.open("Character/Dot.png").convert("RGBA"),
@@ -16,13 +17,13 @@ character_reference : dict = {
     10 : Image.open("Character/Full.png").convert("RGBA")
 }
 
-ExtensionSupported = [
+ExtensionSupported : dict = [
     "jpg", "jpeg", "jfif", "pjpeg", "pjp",
     "png",
 ]
 
 # FUNCTIONS
-def Transform(ImgPath:str) -> Image:
+def Transform(ImgPath:str) -> Image.Image:
     """
     ImgPath : a string detailing the path to an image
     """
@@ -43,12 +44,11 @@ def Transform(ImgPath:str) -> Image:
     return ascii
 
 
-def Transform_all(INPUT_FOLDER:str = "Input", OUTPUT_FOLDER:str = "Output", show:bool = False, USED_FOLDER:str = None) -> list:
+def Transform_all(INPUT_FOLDER:str ="Input", OUTPUT_FOLDER:str ="Output", show:bool =False, USED_FOLDER:str =None) -> None:
     """
-    The parameters OUTPUT_FOLDER, INPUT_FOLDER and USED_FOLDER must be the path to a folder.\n
-    If show is True all images will be shown right after being transformed.\n
-    USED_FOLDER is where the images will be put after being transformed.\n
-    If USED_FOLDER is None then image will be left in the provided INPUT_FOLDER.
+    INPUT_FOLDER, OUTPUT_FOLDER : a string detailing the path to a folder.\n
+    show : wheather the images will be shown after being transformed or not.\n
+    USED_FOLDER : a string detailing the path to a folder or None, if None then the images will be left in INPUT_FOLDER.
     """
     Images = [f for f in os.listdir(INPUT_FOLDER)]
     if Images == []:
@@ -63,15 +63,14 @@ def Transform_all(INPUT_FOLDER:str = "Input", OUTPUT_FOLDER:str = "Output", show
             if show:
                 AsciiVer.show()
             if USED_FOLDER:
-                os.rename(f"{INPUT_FOLDER}/{name}", f"/{name}")
+                os.rename(f"{INPUT_FOLDER}/{name}", f"{OUTPUT_FOLDER}/{name}")
             AsciiVer.save(f"{OUTPUT_FOLDER}/{name.split(".")[0]}_Ascii.png")
         else:
-            print(f"{name} is not an image")
-        
-        print(f"|{"-"*((20*nbDone)//len(Images))}{"~"*(20-((20*nbDone)//len(Images)))}|{(nbDone*100)//len(Images)}%")
+            print(f"{name} is not an image.")
+        print(f"|{"-"*((20*nbDone)//len(Images))}{" "*(20-((20*nbDone)//len(Images)))}|{(nbDone*100)//len(Images)}%")
     print("All images transformed.")
     return
 
 # TEST
 if __name__ == "__main__":
-    Transform_all()
+    Transform_all(USED_FOLDER="Output")
